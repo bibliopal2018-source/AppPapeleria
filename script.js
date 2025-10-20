@@ -386,3 +386,4 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarVentas(); // Carga las ventas
     actualizarTotal(); // Forzamos el cálculo inicial
 });Feature: Implementación de envío de pedidos por correo (Formspree)
+
