@@ -1,5 +1,12 @@
 // =======================================================
-// DATOS INICIALES (Solo se usan si localStorage está vacío)
+// AJUSTE CRÍTICO PARA EL ENVÍO DE PEDIDOS (Formspree)
+// =======================================================
+// INSTRUCCIÓN: Reemplaza 'https://formspree.io/f/TU-ENDPOINT-AQUÍ' con la URL real 
+// que Formspree te proporcionó después de crear tu formulario.
+const FORM_ENDPOINT = 'https://bibliopal2018-source.github.io/AppPapeleria/TU-ENDPOINT-AQUÍ'; 
+
+// =======================================================
+// DATOS INICIALES Y VARIABLES GLOBALES
 // =======================================================
 const PRODUCTOS_INICIALES = [
     {id: 'cuaderno', nombre: 'Cuaderno Profesional', descripcion: 'Cuadernos argollados, tapa dura, 100 hojas.', precio: 3500, unidad: 'unidad'},
@@ -9,13 +16,10 @@ const PRODUCTOS_INICIALES = [
     {id: 'borrador', nombre: 'Borrador de Nata', descripcion: 'Borrador suave de alta calidad.', precio: 800, unidad: 'unidad'}
 ];
 
-// =======================================================
-// VARIABLES GLOBALES Y REFERENCIAS
-// =======================================================
-let listaProductos = []; // Esta lista se cargará/guardará dinámicamente
+let listaProductos = []; 
 let ventasGuardadas = []; 
 
-// Referencias del DOM
+// Referencias del DOM (Todas las referencias están aquí)
 const seccionCatalogo = document.getElementById('seccionCatalogo');
 const formulario = document.getElementById('formularioPedido');
 const selectProducto = document.getElementById('producto');
@@ -23,8 +27,6 @@ const inputCantidad = document.getElementById('cantidad');
 const spanPrecioTotal = document.getElementById('precioTotal');
 const listaVentasDiv = document.getElementById('listaVentas'); 
 const btnLimpiarVentas = document.getElementById('btnLimpiarVentas'); 
-
-// Referencias de Administración
 const formularioProducto = document.getElementById('formularioProducto');
 const inputAdminId = document.getElementById('adminId');
 const inputAdminNombre = document.getElementById('adminNombre');
@@ -38,17 +40,16 @@ const btnCancelarEdicion = document.getElementById('btnCancelarEdicion');
 
 
 // -----------------------------------------------------
-// LÓGICA DE GESTIÓN DE PRODUCTOS (CRUD y Carga/Guardado)
+// LÓGICA DE GESTIÓN DE PRODUCTOS (CRUD y Persistencia)
 // -----------------------------------------------------
 
 // Carga los productos desde localStorage o usa los iniciales
 function cargarProductos() {
     const productosJSON = localStorage.getItem('listaProductosPapeleria');
     if (productosJSON) {
-        // Si hay datos guardados, los usa
         listaProductos = JSON.parse(productosJSON);
     } else {
-        // Si no hay nada, usa la lista inicial y la guarda inmediatamente
+        // Si no hay datos, usa la lista inicial y la guarda inmediatamente
         listaProductos = PRODUCTOS_INICIALES;
         guardarProductos(); 
     }
@@ -61,7 +62,7 @@ function guardarProductos() {
     localStorage.setItem('listaProductosPapeleria', JSON.stringify(listaProductos));
 }
 
-// Función auxiliar para refrescar todas las vistas dependientes
+// Función auxiliar para refrescar todas las vistas
 function cargarVentasInterface() {
     construirCatalogo();
     construirOpcionesVenta();
@@ -109,7 +110,7 @@ formularioProducto.addEventListener('submit', function(e) {
     const id = inputAdminId.value.trim().toLowerCase(); 
     const nombre = inputAdminNombre.value.trim();
     const descripcion = inputAdminDescripcion.value.trim();
-    const precio = Number(inputAdminPrecio.value); // Usa Number() para robustez
+    const precio = Number(inputAdminPrecio.value); 
     const unidad = inputAdminUnidad.value.trim();
     const idAEditar = inputProductoIdEditar.value;
 
@@ -187,7 +188,7 @@ btnCancelarEdicion.addEventListener('click', function() {
 
 
 // -----------------------------------------------------
-// FUNCIONES DE VENTA/CATÁLOGO
+// FUNCIONES DE VENTA/CATÁLOGO Y CÁLCULO
 // -----------------------------------------------------
 
 function construirCatalogo() {
@@ -236,7 +237,7 @@ function actualizarTotal() {
 }
 
 
-// --- Lógica de Historial de Ventas ---
+// --- Lógica de Historial de Ventas (SOLO LOCAL) ---
 
 function cargarVentas() {
     const ventasJSON = localStorage.getItem('ventasPapeleria');
@@ -287,7 +288,11 @@ btnLimpiarVentas.addEventListener('click', () => {
 });
 
 
-formulario.addEventListener('submit', function(evento) {
+// -----------------------------------------------------
+// FUNCIÓN PRINCIPAL: ENVÍO DE PEDIDOS (Formspree)
+// -----------------------------------------------------
+
+formulario.addEventListener('submit', async function(evento) {
     evento.preventDefault(); 
     
     const productoSeleccionadoId = selectProducto.value;
@@ -295,27 +300,76 @@ formulario.addEventListener('submit', function(evento) {
     const cantidad = Number(inputCantidad.value) || 0;
     const totalCalculado = (producto ? producto.precio : 0) * cantidad;
 
-    const datosVenta = {
-        cliente: document.getElementById('nombreCliente').value,
-        productoID: productoSeleccionadoId,
-        nombreProducto: producto ? producto.nombre : 'ERROR: Producto no encontrado',
-        cantidad: cantidad,
-        totalPagado: totalCalculado, 
-        notasAdicionales: document.getElementById('notas').value,
-        fecha: new Date().toLocaleDateString('es-CO') 
+    // Validar que se haya seleccionado un producto
+    if (!producto) {
+        alert('Por favor, selecciona un producto antes de registrar la venta.');
+        return;
+    }
+
+    // 1. Prepara los datos del pedido para enviar
+    const datosPedido = {
+        "Nombre del Cliente": document.getElementById('nombreCliente').value,
+        "Producto ID": productoSeleccionadoId,
+        "Producto Solicitado": producto.nombre,
+        "Cantidad": cantidad,
+        "Total Estimado": totalCalculado.toLocaleString('es-CO', { 
+            style: 'currency', 
+            currency: 'COP', 
+            minimumFractionDigits: 0 
+        }),
+        "Notas Adicionales": document.getElementById('notas').value,
+        "_subject": `Nuevo Pedido de Papelería: ${producto.nombre}`,
+        "Fecha": new Date().toLocaleDateString('es-CO') 
     };
 
-    ventasGuardadas.push(datosVenta);
-    guardarVentas(); 
-    mostrarVentas(); 
+    // 2. Envía la solicitud (fetch) a Formspree
+    try {
+        const respuesta = await fetch(FORM_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Usamos application/json
+            },
+            body: JSON.stringify(datosPedido)
+        });
 
+        // 3. Manejo de la respuesta
+        const mensajeConfirmacionDiv = document.getElementById('mensajeConfirmacion');
+        
+        if (respuesta.ok) {
+            // Éxito: El correo se envió y guardamos localmente
+            const datosVentaLocal = {
+                cliente: datosPedido["Nombre del Cliente"], 
+                nombreProducto: datosPedido["Producto Solicitado"],
+                cantidad: datosPedido.Cantidad,
+                totalPagado: totalCalculado,
+                fecha: datosPedido.Fecha
+            };
+            ventasGuardadas.push(datosVentaLocal);
+            guardarVentas(); 
+            mostrarVentas(); 
+
+            mensajeConfirmacionDiv.textContent = '¡Pedido enviado y registrado con éxito! Revisa tu correo.';
+            mensajeConfirmacionDiv.style.backgroundColor = '#28a745';
+        } else {
+            // Error al enviar
+            mensajeConfirmacionDiv.textContent = 'Error al enviar el pedido. Verifica el ENDPOINT de Formspree.';
+            mensajeConfirmacionDiv.style.backgroundColor = '#dc3545';
+        }
+
+    } catch (error) {
+        // Error de conexión
+        document.getElementById('mensajeConfirmacion').textContent = 'Error de conexión. Verifica tu internet o la URL de Formspree.';
+        document.getElementById('mensajeConfirmacion').style.backgroundColor = '#dc3545';
+    }
+
+    // Muestra el mensaje y limpia el formulario
     document.getElementById('mensajeConfirmacion').style.display = 'block';
     
     setTimeout(() => {
         document.getElementById('mensajeConfirmacion').style.display = 'none';
         formulario.reset(); 
         actualizarTotal(); 
-    }, 3000);
+    }, 5000); // 5 segundos para que el usuario lea
 });
 
 
@@ -331,4 +385,4 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarProductos(); // Carga productos y construye la interfaz
     cargarVentas(); // Carga las ventas
     actualizarTotal(); // Forzamos el cálculo inicial
-});
+});Feature: Implementación de envío de pedidos por correo (Formspree)
