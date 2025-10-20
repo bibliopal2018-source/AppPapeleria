@@ -3,7 +3,7 @@
 // =======================================================
 // INSTRUCCIÓN: Reemplaza 'https://formspree.io/f/TU-ENDPOINT-AQUÍ' con la URL real 
 // que Formspree te proporcionó después de crear tu formulario.
-const FORM_ENDPOINT = 'https://bibliopal2018-source.github.io/AppPapeleria/TU-ENDPOINT-AQUÍ'; 
+const PUNT0_FINAL_DEL_FORMULARIO = 'https://bibliopal2018-source.github.io/AppPapeleria/TU-ENDPOINT-AQUÍ';
 
 // =======================================================
 // DATOS INICIALES Y VARIABLES GLOBALES
@@ -386,4 +386,5 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarVentas(); // Carga las ventas
     actualizarTotal(); // Forzamos el cálculo inicial
 });Feature: Implementación de envío de pedidos por correo (Formspree)
+
 
