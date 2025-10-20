@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variedades Prin's - Catálogo y Ventas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Variedades Prin's</h1>
+        <p>Tu aliado en Útiles escolares, Papelería, Fotocopias e Impresiones.</p>
+    </header>
+
+    <main>
+        
+        <section class="catalogo" id="seccionCatalogo">
+            <h2>Catálogo de Productos y Servicios</h2>
+            <p>Cargando productos...</p>
+        </section>
+
+        <section class="formulario-ventas">
+            <h2>Formulario de Venta/Pedido</h2>
+            <form id="formularioPedido">
+                <label for="nombreCliente">Nombre del Cliente:</label>
+                <input type="text" id="nombreCliente" required>
+
+                <label for="producto">Producto/Servicio Solicitado:</label>
+                <select id="producto" required>
+                    <option value="">Selecciona un producto...</option>
+                </select>
+
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" min="1" value="1" required>
+
+                <label for="notas">Notas/Especificaciones:</label>
+                <textarea id="notas" rows="3"></textarea>
+
+                <p class="total-pedido">Total Estimado: <span id="precioTotal">$0 COP</span></p>
+
+                <button type="submit" id="registrarVenta">Registrar Venta</button>
+            </form>
+            
+            <p id="mensajeConfirmacion" style="display: none;">¡Venta registrada con éxito!</p>
+
+            <div class="lista-ventas" id="listaVentas">
+                <h3>Ventas Registradas Recientes</h3>
+                <p>No hay ventas guardadas aún.</p>
+            </div>
+            <button id="btnLimpiarVentas" class="btn-limpiar">Limpiar Historial de Ventas</button>
+        </section>
+        
+        <section class="administracion">
+            <h2>Administrar Productos</h2>
+            <form id="formularioProducto">
+                <input type="hidden" id="productoIdEditar">
+                
+                <label for="adminId">ID Único (ej: cuaderno):</label>
+                <input type="text" id="adminId" required>
+
+                <label for="adminNombre">Nombre del Producto:</label>
+                <input type="text" id="adminNombre" required>
+
+                <label for="adminDescripcion">Descripción:</label>
+                <textarea id="adminDescripcion" rows="2" required></textarea>
+                
+                <label for="adminPrecio">Precio Unitario (solo números, sin puntos ni comas):</label>
+                <input type="number" id="adminPrecio" min="1" required>
+
+                <label for="adminUnidad">Unidad de Medida (ej: unidad, set, página):</label>
+                <input type="text" id="adminUnidad" required>
+                
+                <div class="admin-acciones">
+                    <button type="submit" id="btnGuardarProducto">Añadir Producto</button>
+                    <button type="button" id="btnCancelarEdicion" style="display: none;">Cancelar Edición</button>
+                </div>
+            </form>
+
+            <div class="productos-activos">
+                <h3>Lista de Productos Activos</h3>
+                <div id="productosActivos">
+                    <p>No hay productos activos.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

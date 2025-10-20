@@ -1,0 +1,213 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2em;
+}
+
+header p {
+    margin-top: 5px;
+    font-size: 1.1em;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0 20px;
+    gap: 20px;
+}
+
+/* Estilos de Contenedores Principales */
+.catalogo, .formulario-ventas, .administracion {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.catalogo {
+    flex: 1; 
+    min-width: 300px;
+    max-width: 400px;
+}
+
+.formulario-ventas {
+    flex: 2; 
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.administracion {
+    flex: 3 100%; /* Ocupa todo el ancho debajo de los otros */
+    order: 3; /* Asegura que vaya al final */
+}
+
+h2, h3 {
+    color: #007BFF;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Estilos de Formularios y Entradas */
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Importante para que el padding no cambie el ancho */
+}
+
+/* Estilos de Botones */
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#btnLimpiarVentas {
+    background-color: #dc3545;
+    margin-top: 10px;
+}
+
+#btnLimpiarVentas:hover {
+    background-color: #c82333;
+}
+
+.admin-acciones button#btnCancelarEdicion {
+    background-color: #6c757d;
+}
+
+.admin-acciones button#btnCancelarEdicion:hover {
+    background-color: #5a6268;
+}
+
+/* Estilos de Catálogo */
+.producto-tarjeta {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+
+.producto-tarjeta h3 {
+    color: #0056b3;
+    font-size: 1.3em;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.producto-tarjeta .precio {
+    font-weight: bold;
+    color: #dc3545; /* Color rojo para el precio */
+    margin-top: 5px;
+}
+
+/* Estilos de Venta */
+.total-pedido {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #007BFF;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.lista-ventas {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.registro-venta {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 5px solid #007BFF;
+    border-radius: 4px;
+}
+
+.registro-venta .precio {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Estilos de Administración */
+.productos-activos {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.producto-admin-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 10px 0;
+}
+
+.producto-admin-info {
+    flex-grow: 1;
+}
+
+.producto-admin-acciones button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    margin-top: 0;
+}
+
+.btn-editar {
+    background-color: #ffc107 !important;
+    color: #333 !important;
+}
+
+.btn-editar:hover {
+    background-color: #e0a800 !important;
+}
+
+.btn-eliminar {
+    background-color: #dc3545 !important;
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333 !important;
+}
