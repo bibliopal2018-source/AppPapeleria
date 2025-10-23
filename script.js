@@ -1,10 +1,8 @@
 // =======================================================
 // AJUSTE CRÍTICO PARA EL ENVÍO DE PEDIDOS (Formspree)
 // =======================================================
-// INSTRUCCIÓN: Reemplaza 'https://formspree.io/f/TU-ENDPOINT-AQUÍ' con la URL real 
-// que Formspree te proporcionó después de crear tu formulario.
-const PUNT0_FINAL_DEL_FORMULARIO = 'https://formspree.io/f/xgvngvkl'TU-ENDPOINT-AQUÍ';
-
+// Corregido: Nombre de variable y URL CORRECTOS
+const FORM_ENDPOINT = 'https://formspree.io/f/xgvngvk1';
 // =======================================================
 // DATOS INICIALES Y VARIABLES GLOBALES
 // =======================================================
@@ -386,6 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarVentas(); // Carga las ventas
     actualizarTotal(); // Forzamos el cálculo inicial
 });Feature: Implementación de envío de pedidos por correo (Formspree)
+
 
 
 
