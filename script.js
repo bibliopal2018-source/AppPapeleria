@@ -372,18 +372,32 @@ formulario.addEventListener('submit', async function(evento) {
 
 
 // -----------------------------------------------------
-// INICIALIZACIÓN
+// INICIALIZACIÓN (BLOQUE REEMPLAZADO)
 // -----------------------------------------------------
 
-// Eventos que disparan el cálculo del total
-selectProducto.addEventListener('change', actualizarTotal);
-inputCantidad.addEventListener('input', actualizarTotal); 
+// Eventos que disparan el cálculo del total (Verificación de existencia añadida)
+if (selectProducto && inputCantidad) {
+    selectProducto.addEventListener('change', actualizarTotal);
+    inputCantidad.addEventListener('input', actualizarTotal); 
+}
 
-document.addEventListener('DOMContentLoaded', () => {
+// Bloque de inicialización más seguro
+function inicializarApp() {
+    // Usamos esta función para asegurarnos de que los elementos DOM
+    // estén listos antes de llamar a cargarProductos
+    if (!seccionCatalogo || !selectProducto) {
+        // En caso de error, mostramos un mensaje en la consola del desarrollador.
+        console.error('Error: Elementos del Catálogo o Formulario no encontrados.');
+        return; 
+    }
+    
     cargarProductos(); // Carga productos y construye la interfaz
     cargarVentas(); // Carga las ventas
     actualizarTotal(); // Forzamos el cálculo inicial
-});Feature: Implementación de envío de pedidos por correo (Formspree)
+}
+
+document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
 
