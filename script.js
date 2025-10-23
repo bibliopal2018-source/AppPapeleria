@@ -3,7 +3,7 @@
 // =======================================================
 // INSTRUCCIÓN: Reemplaza 'https://formspree.io/f/TU-ENDPOINT-AQUÍ' con la URL real 
 // que Formspree te proporcionó después de crear tu formulario.
-const PUNT0_FINAL_DEL_FORMULARIO = 'https://formspree.io/account'TU-ENDPOINT-AQUÍ';
+const PUNT0_FINAL_DEL_FORMULARIO = 'https://formspree.io/f/xgvngvkl'TU-ENDPOINT-AQUÍ';
 
 // =======================================================
 // DATOS INICIALES Y VARIABLES GLOBALES
@@ -386,6 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarVentas(); // Carga las ventas
     actualizarTotal(); // Forzamos el cálculo inicial
 });Feature: Implementación de envío de pedidos por correo (Formspree)
+
 
 
 
