@@ -2,7 +2,7 @@
 // AJUSTE CRÍTICO PARA EL ENVÍO DE PEDIDOS (Formspree)
 // =======================================================
 // Corregido: Nombre de variable y URL CORRECTOS
-const FORM_ENDPOINT = 'https://formspree.io/f/myznrkbv';
+const FORM_ENDPOINT = 'https://formspree.io/f/xgvngvk1';
 // =======================================================
 // DATOS INICIALES Y VARIABLES GLOBALES
 // =======================================================
@@ -397,6 +397,7 @@ function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
 
